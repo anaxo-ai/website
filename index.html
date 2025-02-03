@@ -179,11 +179,12 @@
                     <div class="countdown-label">Seconds</div>
                 </div>
             </div>
-
-            <div class="newsletter">
-                <input type="email" placeholder="Enter your email for early access">
-                <button>Notify Me</button>
-            </div>
+            <form id="telegramForm">
+                <div class="newsletter">
+                    <input type="email" placeholder="Enter your email for early access">
+                    <button>Notify Me</button>
+                </div>
+            </form>
         </div>
 
         <div class="social-links">
@@ -216,6 +217,21 @@
                 document.getElementById("countdown").innerHTML = "LAUNCHED";
             }
         }, 1000);
+
+        document.getElementById("telegramForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const message = document.getElementById("email").value;
+
+            fetch("http://anaxo-ai.infy.uk/telegram.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "message=" + encodeURIComponent(message)
+            })
+            .then(response => response.json())
+            .then(data => console.log("Message sent:", data))
+            .catch(error => console.error("Error:", error));
+        });
     </script>
 </body>
 </html>
